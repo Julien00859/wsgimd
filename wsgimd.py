@@ -1,11 +1,12 @@
 """ WSGI application that converts markdown file to HTML """
 
+import os
 from functools import partial
 from io import BytesIO
 from pathlib import Path
 from markdown import markdownFromFile
 
-ROOT = Path("/home/julien/Public")
+ROOT = Path(os.environ['ROOT']).resolve()
 TEMPLATE = b"""\
 <!DOCTYPE html5>
 <head>
@@ -80,3 +81,5 @@ def application(environ, start_response):
         ('Content-Length', str(path.stat().st_size))
     ])
     return [path.read_bytes()]
+
+app = application
